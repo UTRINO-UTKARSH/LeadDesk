@@ -65,17 +65,14 @@ export default function Admin() {
     }
   }, [search, statusFilter]);
 
-  useEffect(() => {
-    if (authed) fetchLeads();
-  }, [authed, fetchLeads]);
-
-  // debounce search a little so we don't fire a request per keystroke
+  // fetch leads once authed, and again (debounced) whenever filters change
   useEffect(() => {
     if (!authed) return;
-    const t = setTimeout(() => fetchLeads(), 300);
+    const t = setTimeout(() => {
+      fetchLeads();
+    }, 300);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, statusFilter]);
+  }, [authed, search, statusFilter, fetchLeads]);
 
   async function handleLogin(ev) {
     ev.preventDefault();
@@ -88,8 +85,17 @@ export default function Admin() {
         credentials: "include",
         body: JSON.stringify(loginForm),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Login failed");
+
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        // response had no JSON body (e.g. a 404 from a misconfigured proxy)
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || `Login failed (${res.status})`);
+      }
       setAuthed(true);
     } catch (err) {
       setLoginError(err.message);
