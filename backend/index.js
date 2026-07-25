@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
+app.set("trust proxy", 1);
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-app.set("trust proxy", 1);
 const connectDB = require('./lib/db');
 const userRoutes = require('./routes/user.route');
 const leadRoutes = require('./routes/lead.route');
@@ -13,11 +13,11 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: process.env.CLIENT_URL, // https://your-app.vercel.app
+  origin: process.env.CLIENT_URL || "https://lead-desk-8zsf.vercel.app",
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
-}))
+}));
 
 app.use('/api/auth', userRoutes);
 app.use('/api/leads', leadRoutes);
