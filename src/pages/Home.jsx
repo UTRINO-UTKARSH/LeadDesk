@@ -1,4 +1,5 @@
 import Navbar from "../components/common/Navbar";
+import Footer from "../components/footer/footer";
 import HeroContent from "../components/hero/HeroContent";
 import HeroLeft from "../components/hero/HeroLeft";
 import Second from "../components/second/Second"
@@ -22,6 +23,7 @@ const Home = () => {
                 </div>
             </div>
             <Second />
+            <Footer/>
         </div>
     );
 };
