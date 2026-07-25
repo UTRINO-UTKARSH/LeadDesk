@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { Search, LogOut, Lock, Mail, RefreshCw } from "lucide-react";
 
+const API_BASE = import.meta.env.VITE_API_URL || "";
+
 const STATUS_OPTIONS = ["new", "contacted", "closed"];
 
 const STATUS_STYLES = {
@@ -26,7 +28,7 @@ export default function Admin() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/auth/check", { credentials: "include" });
+        const res = await fetch(`${API_BASE}/api/auth/check`, { credentials: "include" });
         setAuthed(res.ok);
       } catch {
         setAuthed(false);
@@ -34,7 +36,8 @@ export default function Admin() {
         setAuthChecked(true);
       }
     })();
-  }, [])
+  }, []);
+
   const fetchLeads = useCallback(async () => {
     setLoading(true);
     setFetchError("");
@@ -43,7 +46,7 @@ export default function Admin() {
       if (search) params.set("search", search);
       if (statusFilter) params.set("status", statusFilter);
 
-      const res = await fetch(`/api/leads?${params.toString()}`, {
+      const res = await fetch(`${API_BASE}/api/leads?${params.toString()}`, {
         credentials: "include",
       });
 
@@ -75,7 +78,7 @@ export default function Admin() {
     setLoggingIn(true);
     setLoginError("");
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -85,8 +88,9 @@ export default function Admin() {
       let data = {};
       try {
         data = await res.json();
-      } catch {
-        // response had no JSON body (e.g. a 404 from a misconfigured proxy)
+      } catch(err){
+        console.log(err);
+        
       }
 
       if (!res.ok) {
@@ -101,7 +105,7 @@ export default function Admin() {
   }
 
   async function handleLogout() {
-    await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+    await fetch(`${API_BASE}/api/auth/logout`, { method: "POST", credentials: "include" });
     setAuthed(false);
     setLeads([]);
   }
@@ -109,7 +113,7 @@ export default function Admin() {
   async function handleStatusChange(id, status) {
     setLeads((prev) => prev.map((l) => (l._id === id ? { ...l, status } : l)));
     try {
-      const res = await fetch(`/api/leads/${id}`, {
+      const res = await fetch(`${API_BASE}/api/leads/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
