@@ -316,11 +316,11 @@ npm run lint
 
 ### Admin Login
 
-(Add Screenshot)
+![alt text](image-1.png)
 
 ### Dashboard
 
-(Add Screenshot)
+![alt text](image-2.png)
 
 ---
 
