@@ -21,7 +21,7 @@ export default function Form() {
     ev.preventDefault();
     setStatus("submitting");
     try {
-      const res = await fetch("/api/leads", {
+      const res = await fetch("http://localhost:3000/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -105,7 +105,7 @@ export default function Form() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="mt-0.5 w-full sm:w-auto self-start inline-flex items-center gap-2 bg-linear-to-b from-[#F08A3C] to-[#E8722C] text-white px-6 py-2.5 rounded-lg font-semibold text-[15px] shadow-[0_4px_14px_rgba(232,114,44,0.35)] hover:shadow-[0_6px_18px_rgba(232,114,44,0.45)] hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:cursor-wait"
+          className="mt-0.5 w-full cursor-pointer sm:w-auto self-start inline-flex items-center gap-2 bg-linear-to-b from-[#F08A3C] to-[#E8722C] text-white px-6 py-2.5 rounded-lg font-semibold text-[15px] shadow-[0_4px_14px_rgba(232,114,44,0.35)] hover:shadow-[0_6px_18px_rgba(232,114,44,0.45)] hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:cursor-wait"
         >
           {status === "submitting" ? "Sending..." : "Submit entry"}
           <ArrowRight size={16} />
