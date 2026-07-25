@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Search, LogOut, Lock, Mail, RefreshCw } from "lucide-react";
 
-const API_BASE = import.meta.env.VITE_API_URL || "";
+const API_BASE = "";
 
 const STATUS_OPTIONS = ["new", "contacted", "closed"];
 
