@@ -12,12 +12,12 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: process.env.CLIENT_URL, // https://your-app.vercel.app
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}))
 
 app.use('/api/auth', userRoutes);
 app.use('/api/leads', leadRoutes);
