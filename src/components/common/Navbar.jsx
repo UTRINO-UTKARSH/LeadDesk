@@ -1,4 +1,5 @@
 import { Moon, ArrowRight } from "lucide-react";
+import { Link, Navigate } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -20,25 +21,24 @@ const Navbar = () => {
           </h1>
         </div>
         <div className="flex gap-4 items-center justify-center">
-            {/* set the isactive condition */}
-            <span className={``}>Home</span>
-            <span>Contact</span>
-            <span>About Us</span>
+          {/* set the isactive condition */}
+          <span className={``}>Home</span>
+          <span>Contact</span>
+          <span>About Us</span>
         </div>
         <div className="flex items-center justify-center gap-4">
 
           <button className="text-sm font-medium text-zinc-400 transition hover:text-white">
             How it works
           </button>
-
-          <button className="group flex items-center gap-2 rounded-xl bg-[#F97316] px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#FB923C] hover:shadow-lg hover:shadow-orange-500/20">
-            Submit Project
-
-            <ArrowRight
-              size={16}
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            />
-          </button>
+          <Link to='/admin'>
+            <button className="group flex items-center gap-2 rounded-xl bg-[#F97316] px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#FB923C] hover:shadow-lg hover:shadow-orange-500/20">
+              Admin Login
+              <ArrowRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </button></Link>
 
         </div>
       </nav>
