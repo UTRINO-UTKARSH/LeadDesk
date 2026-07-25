@@ -23,7 +23,6 @@ export default function Admin() {
   const [statusFilter, setStatusFilter] = useState("");
   const [fetchError, setFetchError] = useState("");
 
-  // --- auth check on load ---
   useEffect(() => {
     (async () => {
       try {
@@ -35,9 +34,7 @@ export default function Admin() {
         setAuthChecked(true);
       }
     })();
-  }, []);
-
-  // --- fetch leads whenever we're authed / filters change ---
+  }, [])
   const fetchLeads = useCallback(async () => {
     setLoading(true);
     setFetchError("");
@@ -65,7 +62,6 @@ export default function Admin() {
     }
   }, [search, statusFilter]);
 
-  // fetch leads once authed, and again (debounced) whenever filters change
   useEffect(() => {
     if (!authed) return;
     const t = setTimeout(() => {
@@ -111,7 +107,6 @@ export default function Admin() {
   }
 
   async function handleStatusChange(id, status) {
-    // optimistic update
     setLeads((prev) => prev.map((l) => (l._id === id ? { ...l, status } : l)));
     try {
       const res = await fetch(`/api/leads/${id}`, {
@@ -122,12 +117,10 @@ export default function Admin() {
       });
       if (!res.ok) throw new Error();
     } catch {
-      // roll back on failure
       fetchLeads();
     }
   }
 
-  // --- not logged in: show login form ---
   if (!authChecked) {
     return (
       <div className="min-h-screen bg-[#0B0D14] flex items-center justify-center">
@@ -186,7 +179,6 @@ export default function Admin() {
     );
   }
 
-  // --- logged in: leads dashboard ---
   return (
     <div className="min-h-screen bg-[#0B0D14] font-['Inter',sans-serif] px-6 py-10 sm:px-12">
       <div className="max-w-5xl mx-auto flex flex-col gap-6">
@@ -205,8 +197,6 @@ export default function Admin() {
             Log out
           </button>
         </div>
-
-        {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#5B6072]" size={17} />
@@ -245,7 +235,6 @@ export default function Admin() {
 
         {fetchError && <p className="text-red-400 text-sm">{fetchError}</p>}
 
-        {/* Table */}
         <div className="border border-[#262B3A] rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-[14px]">
