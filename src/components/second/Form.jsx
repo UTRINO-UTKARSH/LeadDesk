@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { User, Mail, ArrowRight } from "lucide-react";
+
+const API_BASE = import.meta.env.CLIENT_URL || "";
 function Field({ num, label, children }) {
+
   return (
     <div className="relative pl-8 sm:pl-10">
       <span className="absolute -left-3.25 sm:-left-3.75 top-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1C1512] border border-[#E8722C] text-[#E8722C] text-[11px] sm:text-xs font-semibold flex items-center justify-center">
@@ -21,7 +24,7 @@ export default function Form() {
     ev.preventDefault();
     setStatus("submitting");
     try {
-      const res = await fetch("http://localhost:3000/api/leads", {
+      const res = await fetch(`${API_BASE}/api/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
